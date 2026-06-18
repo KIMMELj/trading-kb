@@ -2063,17 +2063,19 @@ Définitions des critères :
   try {
     var response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 500,
         messages: [{
           role: 'user',
           content: [
-            {
-              type: 'image',
-              source: { type: 'base64', media_type: mediaType, data: base64 }
-            },
+            { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64 } },
             { type: 'text', text: prompt }
           ]
         }]
@@ -2081,8 +2083,16 @@ Définitions des critères :
     });
 
     var data = await response.json();
-    var raw  = data.content[0].text.trim();
-    // Nettoyer si besoin
+
+    // Vérifier les erreurs API
+    if (data.error) {
+      throw new Error('API: ' + data.error.message);
+    }
+    if (!data.content || data.content.length === 0) {
+      throw new Error('Réponse vide. Vérifie ta clé API. Détail: ' + JSON.stringify(data).substring(0, 200));
+    }
+
+    var raw = data.content[0].text.trim();
     raw = raw.replace(/```json|```/g, '').trim();
     var result = JSON.parse(raw);
     applyAnalysisResult(result);
@@ -2090,7 +2100,8 @@ Définitions des critères :
   } catch(err) {
     document.getElementById('ai-result-box').style.display = 'block';
     document.getElementById('ai-result-content').innerHTML =
-      '<span style="color:var(--danger)">❌ Erreur d\'analyse : ' + err.message + '</span>';
+      '<span style="color:var(--danger)">❌ ' + err.message + '</span>'
+      + '<br><span style="color:var(--muted);font-size:10px">💡 Si erreur de clé : clique sur le banner violet pour reconfigurer.</span>';
   }
 
   btn.disabled = false;
