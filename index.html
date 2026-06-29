@@ -1,5 +1,4 @@
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -365,7 +364,7 @@ tr:last-child td { border-bottom:none; }
 }
 .modal-box{
   background:var(--bg2);border:1px solid var(--border2);border-radius:14px;
-  padding:28px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;
+  padding:28px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;scroll-behavior:smooth;
 }
 .modal-title{font-size:18px;font-weight:800;margin-bottom:20px;color:var(--text)}
 .modal-close{float:right;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;margin-top:-4px}
@@ -4597,16 +4596,18 @@ function submitAddTrade(e) {
     isUser:     true
   };
 
+  var savedVideoFile = _videoFile; // garder ref avant closeAddTrade
+
   if (_addingBacktest) {
     var btExisting = getBTTrades();
     btExisting.push(trade);
     saveBTTrades(btExisting);
     _addingBacktest = false;
-    // Sauvegarder vidéo en IDB
-    if (_videoFile) {
-      saveVideoIDB(trade.id, _videoFile).then(function() {
+    if (savedVideoFile) {
+      saveVideoIDB(trade.id, savedVideoFile).then(function() {
         renderBacktest(_currentFilterBT);
-        setTimeout(function(){ injectVideoInCard(trade.id, _videoFile, _videoFile.name); }, 200);
+        // Attendre que le DOM soit rendu puis injecter
+        setTimeout(function(){ injectVideoInCard(trade.id, savedVideoFile, savedVideoFile.name); }, 400);
       });
     } else {
       renderBacktest(_currentFilterBT);
@@ -4615,11 +4616,11 @@ function submitAddTrade(e) {
     var existing = getUserTrades();
     existing.push(trade);
     saveUserTrades(existing);
-    // Sauvegarder vidéo en IDB
-    if (_videoFile) {
-      saveVideoIDB(trade.id, _videoFile).then(function() {
+    if (savedVideoFile) {
+      saveVideoIDB(trade.id, savedVideoFile).then(function() {
         renderJournal(_currentFilter);
-        setTimeout(function(){ injectVideoInCard(trade.id, _videoFile, _videoFile.name); }, 200);
+        // Attendre que le DOM soit rendu puis injecter
+        setTimeout(function(){ injectVideoInCard(trade.id, savedVideoFile, savedVideoFile.name); }, 400);
       });
     } else {
       renderJournal(_currentFilter);
@@ -5035,7 +5036,7 @@ function navigateToIdx(newIdx, direction) {
     if (newId === 'stats')          computeStats();
     if (newId === 'stats-backtest') computeStatsBT();
     if (newId === 'backtest')       renderBacktest(_currentFilterBT);
-    if (newId === 'journal' || newId === 'backtest') setTimeout(loadTradeVideos, 300);
+    if (newId === 'journal' || newId === 'backtest') setTimeout(loadTradeVideos, 500);
     if (typeof showEditBtn === 'function') showEditBtn();
 
     _currentPageIdx = newIdx;
@@ -5945,7 +5946,11 @@ function loadTradeVideos() {
 
 function injectVideoInCard(tradeId, file, name) {
   var wrap = document.getElementById('video-wrap-' + tradeId);
-  if (!wrap) return;
+  if (!wrap) {
+    // Réessayer une fois si le DOM n'est pas encore prêt
+    setTimeout(function(){ injectVideoInCard(tradeId, file, name); }, 300);
+    return;
+  }
   var blobUrl = URL.createObjectURL(file);
   wrap.innerHTML =
     '<div class="trade-video-wrap">'
@@ -5978,7 +5983,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadParams();
   loadCriteriaLabels();
   loadCVDImages();
-  setTimeout(loadTradeVideos, 300);
+  setTimeout(loadTradeVideos, 500);
 });
 
 
@@ -6515,6 +6520,28 @@ function computeStatsBT() {
       </div>
 
       <!-- Screenshot -->
+      <p class="form-section-title">🎬 VIDÉO DU TRADE (optionnel)</p>
+      <div class="video-drop-zone" id="at-video-zone"
+           ondragover="onVideoDropOver(event)"
+           ondragleave="onVideoDropLeave(event)"
+           ondrop="onVideoDrop(event)"
+           onclick="document.getElementById('at-video-file').click()">
+        <div class="video-drop-inner" id="at-video-inner">
+          <div class="drop-icon">🎬</div>
+          <div class="drop-text">
+            <strong>Glisse ta vidéo ici</strong><br>
+            ou clique pour parcourir (.mp4, .mov, .webm)
+          </div>
+        </div>
+        <div class="video-preview-wrap" id="at-video-preview">
+          <video id="at-video-player" controls playsinline></video>
+          <button type="button" class="video-clear-btn" onclick="clearVideo(event)">×</button>
+          <div class="video-preview-name" id="at-video-name"></div>
+        </div>
+        <input type="file" id="at-video-file" accept="video/*"
+               style="display:none" onchange="onVideoFileSelect(this)">
+      </div>
+
       <p class="form-section-title">📸 SCREENSHOT (optionnel)</p>
       <div class="drop-zone" id="at-drop-zone"
            ondragover="onDropOver(event)"
@@ -6549,29 +6576,6 @@ function computeStatsBT() {
         <div class="ai-note">⚠ Vérifie et ajuste manuellement si nécessaire.</div>
       </div>
 
-
-      <!-- Vidéo -->
-      <p class="form-section-title">🎬 VIDÉO DU TRADE (optionnel)</p>
-      <div class="video-drop-zone" id="at-video-zone"
-           ondragover="onVideoDropOver(event)"
-           ondragleave="onVideoDropLeave(event)"
-           ondrop="onVideoDrop(event)"
-           onclick="document.getElementById('at-video-file').click()">
-        <div class="video-drop-inner" id="at-video-inner">
-          <div class="drop-icon">🎬</div>
-          <div class="drop-text">
-            <strong>Glisse ta vidéo ici</strong><br>
-            ou clique pour parcourir (.mp4, .mov, .webm)
-          </div>
-        </div>
-        <div class="video-preview-wrap" id="at-video-preview">
-          <video id="at-video-player" controls playsinline></video>
-          <button type="button" class="video-clear-btn" onclick="clearVideo(event)">×</button>
-          <div class="video-preview-name" id="at-video-name"></div>
-        </div>
-        <input type="file" id="at-video-file" accept="video/*"
-               style="display:none" onchange="onVideoFileSelect(this)">
-      </div>
 
       <div class="form-submit-row">
         <button type="submit" class="btn-submit">✓ Enregistrer le trade</button>
