@@ -7,9 +7,9 @@ tags: [journal]
 # {{date:dddd DD MMMM YYYY}}
 
 ## Contexte
-- Macro / news : [[Contexte {{date:YYYY-MM-DD}}]]
-- Option flow : [[Optionflow {{date:YYYY-MM-DD}}]]
-- Rapport Hermes : [[Hermes {{date:YYYY-MM-DD}}]]
+- Macro / news : [[vault/05-Contexte/Contexte {{date:YYYY-MM-DD}}|Contexte {{date:YYYY-MM-DD}}]]
+- Option flow : [[vault/03-Optionflow/Optionflow {{date:YYYY-MM-DD}}|Optionflow {{date:YYYY-MM-DD}}]]
+- Rapport Hermes : [[vault/04-Hermes/Hermes {{date:YYYY-MM-DD}}|Hermes {{date:YYYY-MM-DD}}]]
 
 ## Scénario du jour
 - Régime attendu :

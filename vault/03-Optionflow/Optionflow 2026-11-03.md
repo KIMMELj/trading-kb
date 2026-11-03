@@ -1,0 +1,62 @@
+---
+type: releve-optionflow
+date: 2026-11-03
+source: GEXBOT
+ticker: nq_ndx
+tags:
+  - optionflow
+  - gex
+---
+
+# Relevé option flow — 03/11/2026
+
+## Relevé 12H
+
+| Niveau | 0DTE | 1DTE | 90DTE |
+|---|---|---|---|
+| MAJOR POSITIVE OI |  |  |  |
+| MAJOR NEGATIVE OI |  |  |  |
+| MAJOR POSITIVE VOL |  |  |  |
+| MAJOR NEGATIVE VOL |  |  |  |
+| ZG |  |  |  |
+
+## Relevé 14H
+
+| Niveau | 0DTE | 1DTE | 90DTE |
+|---|---|---|---|
+| MAJOR POSITIVE OI |  |  |  |
+| MAJOR NEGATIVE OI |  |  |  |
+
+## Noms ATAS
+
+```
+MAJOR POSITIVE OI 0DTE 12H 03/11 : 
+MAJOR NEGATIVE OI 0DTE 12H 03/11 : 
+MAJOR POSITIVE VOL 0DTE 12H 03/11 : 
+MAJOR NEGATIVE VOL 0DTE 12H 03/11 : 
+ZG 0DTE 12H 03/11 : 
+MAJOR POSITIVE OI 1DTE 12H 03/11 : 
+MAJOR NEGATIVE OI 1DTE 12H 03/11 : 
+MAJOR POSITIVE VOL 1DTE 12H 03/11 : 
+MAJOR NEGATIVE VOL 1DTE 12H 03/11 : 
+ZG 1DTE 12H 03/11 : 
+MAJOR POSITIVE OI 90DTE 12H 03/11 : 
+MAJOR NEGATIVE OI 90DTE 12H 03/11 : 
+MAJOR POSITIVE VOL 90DTE 12H 03/11 : 
+MAJOR NEGATIVE VOL 90DTE 12H 03/11 : 
+ZG 90DTE 12H 03/11 : 
+MAJOR POSITIVE OI 0DTE 14H 03/11 : 
+MAJOR NEGATIVE OI 0DTE 14H 03/11 : 
+MAJOR POSITIVE OI 1DTE 14H 03/11 : 
+MAJOR NEGATIVE OI 1DTE 14H 03/11 : 
+MAJOR POSITIVE OI 90DTE 14H 03/11 : 
+MAJOR NEGATIVE OI 90DTE 14H 03/11 : 
+```
+
+## Lecture
+
+- Régime gamma :
+- Spot vs ZG :
+- Niveaux clés pour la session :
+
+Lié : [[2026-11-03]]
