@@ -2,5 +2,7 @@
   "newFileLocation": "folder",
   "newFileFolderPath": "vault/00-Inbox",
   "attachmentFolderPath": "vault/Captures",
-  "userIgnoreFilters": ["index.html"]
+  "userIgnoreFilters": [
+    "index.html"
+  ]
 }
