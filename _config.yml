@@ -1,0 +1,4 @@
+# GitHub Pages : ne pas publier le vault Obsidian comme pages web
+exclude:
+  - vault
+  - README.md

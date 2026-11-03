@@ -1,0 +1,5 @@
+{
+  "folder": "vault/01-Journal",
+  "format": "YYYY-MM-DD",
+  "template": "vault/Templates/Journal du jour"
+}
