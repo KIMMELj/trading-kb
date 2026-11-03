@@ -48,7 +48,26 @@ nav {
 }
 .nav-logo h1 { font-size:16px; font-weight:800; line-height:1.2; color:var(--text); }
 
-.nav-section { padding:16px 12px 8px; }
+.nav-section { padding:2px 12px; }
+.nav-sections-top { height:10px; }
+.nav-head {
+  display:flex; align-items:center; gap:10px; width:100%;
+  padding:11px 12px; border:none; background:none; cursor:pointer; border-radius:6px;
+  font-family:var(--display); font-size:13px; font-weight:700; color:var(--text);
+  text-align:left; transition:background .15s, color .15s;
+}
+.nav-head:hover { background:rgba(255,255,255,0.04); }
+.nav-num { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.08em; transition:color .15s; }
+.nav-title { flex:1; }
+.nav-chev { font-family:var(--mono); font-size:14px; color:var(--muted); transition:transform .25s ease, color .15s; }
+.nav-section.open .nav-chev { transform:rotate(90deg); color:var(--text); }
+.nav-section.has-active .nav-num, .nav-section.has-active .nav-chev { color:var(--accent); }
+.nav-group { display:grid; grid-template-rows:0fr; transition:grid-template-rows .25s ease; }
+.nav-section.open .nav-group { grid-template-rows:1fr; }
+.nav-group-inner { overflow:hidden; margin-left:17px; padding-left:6px; border-left:1px solid var(--border); }
+.nav-group .nav-item { font-size:12.5px; padding:7px 10px; }
+.nav-section.open .nav-group-inner { padding-bottom:6px; }
+@media (prefers-reduced-motion: reduce) { .nav-group, .nav-chev { transition:none; } }
 .nav-label { font-family:var(--mono); font-size:10px; letter-spacing:0.12em; color:var(--muted); padding:0 12px; margin-bottom:6px; }
 .nav-item {
   display:flex; align-items:center; gap:10px;
@@ -2339,139 +2358,163 @@ body.edit-mode .chart-reset-btn.has-img { display:block; }
     <h1>Orderflow ×<br>Optionflow</h1>
   </div>
 
-  <div class="nav-section">
-    <div class="nav-label">Vue d'ensemble</div>
-    <button class="nav-item active" onclick="showPage('dashboard')">
-      <span class="nav-dot"></span> Dashboard
+  <div class="nav-section open">
+    <button class="nav-head" type="button" onclick="toggleNavSection(this)" aria-expanded="true">
+      <span class="nav-num">01</span><span class="nav-title">Vue d'ensemble</span><span class="nav-chev">›</span>
     </button>
-    <button class="nav-item" onclick="showPage('contexte')">
-      <span class="nav-dot"></span> Contexte du jour
-    </button>
+    <div class="nav-group"><div class="nav-group-inner">
+      <button class="nav-item active" onclick="showPage('dashboard')">
+        <span class="nav-dot"></span> Dashboard
+      </button>
+      <button class="nav-item" onclick="showPage('contexte')">
+        <span class="nav-dot"></span> Contexte du jour
+      </button>
+    </div></div>
   </div>
 
   <div class="nav-section">
-    <div class="nav-label">Option Flow</div>
-    <button class="nav-item" onclick="showPage('gexbot')">
-      <span class="nav-dot"></span> Relevé GEXbot
+    <button class="nav-head" type="button" onclick="toggleNavSection(this)" aria-expanded="false">
+      <span class="nav-num">02</span><span class="nav-title">Hermes</span><span class="nav-chev">›</span>
     </button>
-    <button class="nav-item" onclick="showPage('gex')">
-      <span class="nav-dot"></span> GEX &amp; Gamma
-    </button>
-    <button class="nav-item" onclick="showPage('greeks')">
-      <span class="nav-dot"></span> Greeks — définitions
-    </button>
-    <button class="nav-item" onclick="showPage('greeks-hedge')">
-      <span class="nav-dot"></span> Couverture des dealers
-    </button>
-    <button class="nav-item" onclick="showPage('greeks-interp')">
-      <span class="nav-dot"></span> Greeks — interprétation
-    </button>
-    <button class="nav-item" onclick="showPage('greeks-basis')">
-      <span class="nav-dot"></span> Conversion SPX → ES
-    </button>
-    <button class="nav-item" onclick="showPage('greeks-echeances')">
-      <span class="nav-dot"></span> Cycle des échéances
-    </button>
-    <button class="nav-item" onclick="showPage('greeks-deepedge')">
-      <span class="nav-dot"></span> Dashboard DeepEdge
-    </button>
-    <button class="nav-item" onclick="showPage('greeks-exemple')">
-      <span class="nav-dot"></span> Exemple concret → ES
-    </button>
-    <button class="nav-item" onclick="showPage('options-strats')">
-      <span class="nav-dot"></span> Stratégies d'options
-    </button>
+    <div class="nav-group"><div class="nav-group-inner">
+      <button class="nav-item" onclick="showPage('hermes')">
+        <span class="nav-dot"></span> Fiche Hermes
+      </button>
+      <button class="nav-item" onclick="showPage('hermes-chat')">
+        <span class="nav-dot"></span> Chat ghost-desk
+      </button>
+      <button class="nav-item" onclick="showPage('hermes-reports')">
+        <span class="nav-dot"></span> Rapports Hermes
+      </button>
+      <button class="nav-item" onclick="showPage('hermes-forward')">
+        <span class="nav-dot"></span> Forward test H2 / H3
+      </button>
+    </div></div>
   </div>
 
   <div class="nav-section">
-    <div class="nav-label">Hermes</div>
-    <button class="nav-item" onclick="showPage('hermes')">
-      <span class="nav-dot"></span> Fiche Hermes
+    <button class="nav-head" type="button" onclick="toggleNavSection(this)" aria-expanded="false">
+      <span class="nav-num">03</span><span class="nav-title">Option Flow</span><span class="nav-chev">›</span>
     </button>
-    <button class="nav-item" onclick="showPage('hermes-chat')">
-      <span class="nav-dot"></span> Chat ghost-desk
-    </button>
-    <button class="nav-item" onclick="showPage('hermes-reports')">
-      <span class="nav-dot"></span> Rapports Hermes
-    </button>
-    <button class="nav-item" onclick="showPage('hermes-forward')">
-      <span class="nav-dot"></span> Forward test H2 / H3
-    </button>
+    <div class="nav-group"><div class="nav-group-inner">
+      <button class="nav-item" onclick="showPage('gexbot')">
+        <span class="nav-dot"></span> Relevé GEXbot
+      </button>
+      <button class="nav-item" onclick="showPage('gex')">
+        <span class="nav-dot"></span> GEX &amp; Gamma
+      </button>
+      <button class="nav-item" onclick="showPage('greeks')">
+        <span class="nav-dot"></span> Greeks — définitions
+      </button>
+      <button class="nav-item" onclick="showPage('greeks-hedge')">
+        <span class="nav-dot"></span> Couverture des dealers
+      </button>
+      <button class="nav-item" onclick="showPage('greeks-interp')">
+        <span class="nav-dot"></span> Greeks — interprétation
+      </button>
+      <button class="nav-item" onclick="showPage('greeks-basis')">
+        <span class="nav-dot"></span> Conversion SPX → ES
+      </button>
+      <button class="nav-item" onclick="showPage('greeks-echeances')">
+        <span class="nav-dot"></span> Cycle des échéances
+      </button>
+      <button class="nav-item" onclick="showPage('greeks-deepedge')">
+        <span class="nav-dot"></span> Dashboard DeepEdge
+      </button>
+      <button class="nav-item" onclick="showPage('greeks-exemple')">
+        <span class="nav-dot"></span> Exemple concret → ES
+      </button>
+      <button class="nav-item" onclick="showPage('options-strats')">
+        <span class="nav-dot"></span> Stratégies d'options
+      </button>
+    </div></div>
   </div>
 
   <div class="nav-section">
-    <div class="nav-label">Order Flow</div>
-    <button class="nav-item" onclick="showPage('cvd')">
-      <span class="nav-dot"></span> CVD
+    <button class="nav-head" type="button" onclick="toggleNavSection(this)" aria-expanded="false">
+      <span class="nav-num">04</span><span class="nav-title">Order flow</span><span class="nav-chev">›</span>
     </button>
-    <button class="nav-item" onclick="showPage('poc')">
-      <span class="nav-dot"></span> POC
-    </button>
-    <button class="nav-item" onclick="showPage('poc-migration')">
-      <span class="nav-dot"></span> Migration POC
-    </button>
-    <button class="nav-item" onclick="showPage('vp-session')">
-      <span class="nav-dot"></span> Volume Profile session
-    </button>
-    <button class="nav-item" onclick="showPage('initial-balance')">
-      <span class="nav-dot"></span> Initial Balance
-    </button>
-    <button class="nav-item" onclick="showPage('rotation')">
-      <span class="nav-dot"></span> Rotation factor
-    </button>
-    <button class="nav-item" onclick="showPage('absorption')">
-      <span class="nav-dot"></span> Absorptions
-    </button>
-    <button class="nav-item" onclick="showPage('exhaustion')">
-      <span class="nav-dot"></span> Exhaustion
-    </button>
-    <button class="nav-item" onclick="showPage('imbalance')">
-      <span class="nav-dot"></span> Imbalances
-    </button>
-    <button class="nav-item" onclick="showPage('big-trades')">
-      <span class="nav-dot"></span> Big Trades
-    </button>
-    <button class="nav-item" onclick="showPage('dom-tape')">
-      <span class="nav-dot"></span> DOM &amp; Tape
-    </button>
-    <button class="nav-item" onclick="showPage('iceberg')">
-      <span class="nav-dot"></span> Icebergs
-    </button>
-    <button class="nav-item" onclick="showPage('spoofing')">
-      <span class="nav-dot"></span> Spoofing &amp; Layering
-    </button>
-    <button class="nav-item" onclick="showPage('vwap')">
-      <span class="nav-dot"></span> VWAP
-    </button>
+    <div class="nav-group"><div class="nav-group-inner">
+      <button class="nav-item" onclick="showPage('cvd')">
+        <span class="nav-dot"></span> CVD
+      </button>
+      <button class="nav-item" onclick="showPage('poc')">
+        <span class="nav-dot"></span> POC
+      </button>
+      <button class="nav-item" onclick="showPage('poc-migration')">
+        <span class="nav-dot"></span> Migration POC
+      </button>
+      <button class="nav-item" onclick="showPage('vp-session')">
+        <span class="nav-dot"></span> Volume Profile session
+      </button>
+      <button class="nav-item" onclick="showPage('initial-balance')">
+        <span class="nav-dot"></span> Initial Balance
+      </button>
+      <button class="nav-item" onclick="showPage('rotation')">
+        <span class="nav-dot"></span> Rotation factor
+      </button>
+      <button class="nav-item" onclick="showPage('absorption')">
+        <span class="nav-dot"></span> Absorptions
+      </button>
+      <button class="nav-item" onclick="showPage('exhaustion')">
+        <span class="nav-dot"></span> Exhaustion
+      </button>
+      <button class="nav-item" onclick="showPage('imbalance')">
+        <span class="nav-dot"></span> Imbalances
+      </button>
+      <button class="nav-item" onclick="showPage('big-trades')">
+        <span class="nav-dot"></span> Big Trades
+      </button>
+      <button class="nav-item" onclick="showPage('dom-tape')">
+        <span class="nav-dot"></span> DOM &amp; Tape
+      </button>
+      <button class="nav-item" onclick="showPage('iceberg')">
+        <span class="nav-dot"></span> Icebergs
+      </button>
+      <button class="nav-item" onclick="showPage('spoofing')">
+        <span class="nav-dot"></span> Spoofing &amp; Layering
+      </button>
+      <button class="nav-item" onclick="showPage('vwap')">
+        <span class="nav-dot"></span> VWAP
+      </button>
+    </div></div>
   </div>
 
   <div class="nav-section">
-    <div class="nav-label">Suivi</div>
-    <button class="nav-item" onclick="showPage('stats')">
-      <span class="nav-dot"></span> Statistiques journal
+    <button class="nav-head" type="button" onclick="toggleNavSection(this)" aria-expanded="false">
+      <span class="nav-num">05</span><span class="nav-title">Suivi</span><span class="nav-chev">›</span>
     </button>
-    <button class="nav-item" onclick="showPage('stats-backtest')">
-      <span class="nav-dot"></span> Statistiques backtest
-    </button>
-    <button class="nav-item" onclick="showPage('journal')">
-      <span class="nav-dot"></span> Journal trades
-    </button>
-    <button class="nav-item" onclick="showPage('backtest')">
-      <span class="nav-dot"></span> Backtest
-    </button>
-    <button class="nav-item" onclick="showPage('notes')">
-      <span class="nav-dot"></span> Notes perso
-    </button>
+    <div class="nav-group"><div class="nav-group-inner">
+      <button class="nav-item" onclick="showPage('stats')">
+        <span class="nav-dot"></span> Statistiques journal
+      </button>
+      <button class="nav-item" onclick="showPage('stats-backtest')">
+        <span class="nav-dot"></span> Statistiques backtest
+      </button>
+      <button class="nav-item" onclick="showPage('journal')">
+        <span class="nav-dot"></span> Journal trades
+      </button>
+      <button class="nav-item" onclick="showPage('backtest')">
+        <span class="nav-dot"></span> Backtest
+      </button>
+      <button class="nav-item" onclick="showPage('notes')">
+        <span class="nav-dot"></span> Notes perso
+      </button>
+    </div></div>
   </div>
 
   <div class="nav-section">
-    <div class="nav-label">Outils</div>
-    <button class="nav-item" onclick="showPage('calc')">
-      <span class="nav-dot"></span> Calculatrice
+    <button class="nav-head" type="button" onclick="toggleNavSection(this)" aria-expanded="false">
+      <span class="nav-num">06</span><span class="nav-title">Outils</span><span class="nav-chev">›</span>
     </button>
-    <button class="nav-item" onclick="showPage('backup')">
-      <span class="nav-dot"></span> Sauvegarde
-    </button>
+    <div class="nav-group"><div class="nav-group-inner">
+      <button class="nav-item" onclick="showPage('calc')">
+        <span class="nav-dot"></span> Calculatrice
+      </button>
+      <button class="nav-item" onclick="showPage('backup')">
+        <span class="nav-dot"></span> Sauvegarde
+      </button>
+    </div></div>
   </div>
 
   <div class="nav-footer">
@@ -10790,9 +10833,9 @@ function drawLandingChart() {
 // Ordre des pages (sans landing)
 var PAGE_ORDER = [
   'dashboard','contexte',
+  'hermes','hermes-chat','hermes-reports','hermes-forward',
   'gexbot','gex',
   'greeks','greeks-hedge','greeks-interp','greeks-basis','greeks-echeances','greeks-deepedge','greeks-exemple','options-strats',
-  'hermes','hermes-chat','hermes-reports','hermes-forward',
   'cvd','poc','poc-migration','vp-session','initial-balance','rotation',
   'absorption','exhaustion','imbalance','big-trades','dom-tape','iceberg','spoofing','vwap',
   'stats','stats-backtest','journal','backtest','notes',
@@ -10847,6 +10890,37 @@ function getCurrentPageId() {
   var active = document.querySelector('.page.active');
   return active ? active.id.replace('page-','') : PAGE_ORDER[0];
 }
+
+/* ── Menu latéral en volets déroulants ── */
+function toggleNavSection(btn) {
+  var sec = btn.parentElement;
+  var willOpen = !sec.classList.contains('open');
+  document.querySelectorAll('nav .nav-section').forEach(function(x){
+    x.classList.remove('open');
+    var h = x.querySelector('.nav-head'); if (h) h.setAttribute('aria-expanded','false');
+  });
+  if (willOpen) { sec.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+}
+function syncNavSections() {
+  document.querySelectorAll('nav .nav-section').forEach(function(sec){
+    var has = !!sec.querySelector('.nav-item.active');
+    sec.classList.toggle('has-active', has);
+    if (has && !sec.classList.contains('open')) {
+      var h = sec.querySelector('.nav-head');
+      if (h) toggleNavSection(h);
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded', function(){
+  var navEl = document.querySelector('nav');
+  if (!navEl) return;
+  syncNavSections();
+  new MutationObserver(function(muts){
+    for (var i = 0; i < muts.length; i++) {
+      if (muts[i].target.classList && muts[i].target.classList.contains('nav-item')) { syncNavSections(); return; }
+    }
+  }).observe(navEl, { subtree:true, attributes:true, attributeFilter:['class'] });
+});
 
 function getPageIdx(id) {
   return PAGE_ORDER.indexOf(id);
